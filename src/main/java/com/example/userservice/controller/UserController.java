@@ -1,7 +1,6 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDto;
-import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/")
 public class UserController {
-    private Environment env;
-    private UserService userService;
+    private final Environment env;
+    private final UserService userService;
 
     @Autowired
     private Greeting greeting;
@@ -29,12 +28,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/health-check")
+    @GetMapping("/user-service/health-check")
     public String status() {
-        return "It's Working in User Service.";
+        return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
     }
 
-    @GetMapping("/welcome")
+    @GetMapping("/user-service/welcome")
     public String welcome() {
         // return env.getProperty("greeting.message");
         return greeting.getMessage();
